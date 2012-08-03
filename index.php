@@ -1,7 +1,6 @@
 <?php
 
 /**
-meboy
  * @file
  * The PHP page that serves all page requests on a Drupal installation.
  *
