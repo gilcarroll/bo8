@@ -1,5 +1,4 @@
 <?php
-removeme
 
 /**
  * @file
