@@ -1,0 +1,202 @@
+ <?php
+
+/** 
+ * @file 
+ * Lets users add private annotations to nodes. 
+ *
+ * Adds a text field when a node is displayed 
+ * so that authenticated users may make notes. 
+ */
+
+/** 
+ * Implementation of hook_menu(). 
+*/
+function annotate_menu() { 
+  $items['admin/config/annotate'] = array(
+    'title' => 'Node annotation', 
+    'description' => 'Adjust node annotation options.', 
+    'position' => 'right', 
+    'weight' => -5, 
+    'page callback' => 'system_admin_menu_block_page', 
+    'access arguments' => array('administer site configuration'), 
+    'file' => 'system.admin.inc', 
+    'file path' => drupal_get_path('module', 'system'),
+);
+//}
+  $items['admin/config/annotate/settings'] = array( 
+    'title' => 'Annotation settings',
+    'description' => 'Change how annotations behave.', 
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('annotate_admin_settings'),  
+    'access arguments' => array('administer site configuration'), 
+    'type' => MENU_NORMAL_ITEM, 
+    'file' => 'annotate.admin.inc',
+  );
+  $items['gil'] = array( 
+    'title' => 'gil routines',
+    'description' => 'gil routines desc', 
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('annotate_gilform'),  
+    'access arguments' => array('access content'), 
+    'type' => MENU_NORMAL_ITEM, 
+    //'file' => 'annotate.admin.inc',
+  );
+ 
+  return $items;
+}
+
+
+/** 
+ * Implements hook_node_load().
+ */
+function annotate_node_load($nodes, $types)  {
+  global $user; 
+  foreach($nodes as $node) {
+    if ($user->uid != $node->uid) { 
+      unset($node->annotation);
+    }
+  }
+}
+
+
+//Fatal error: Call to undefined function field_read_fields() in /Applications/MAMP/htdocs/bookofeight/modules/field/modules/field_sql_storage/field_sql_storage.install on line 16
+////$data = array(
+   // 'id' => 1,
+  //  'dataa' => 'sgil'
+ // );
+//  drupal_write_record('arraytest', $data);
+  //$table = 'arraytest';
+    //$schema = drupal_get_schema($table);
+ //print_r($schema);
+
+  
+/** 
+ * Define a form. 
+ */
+function annotate_gilform()  {
+$sql = 'select dataa from {arraytest}';
+$bar = db_query($sql);
+$results = array();
+while ($record = db_fetch_object($bar)) {
+  // Perform operations on $record->title, etc. here.
+}
+// not in 7  while ($row = db_fetch_array($bar)) $results[] = $row;
+var_dump($results);
+die();
+//$foo = $bar->fetchAllAssoc('dataa');
+ //$foo = array('red','blue','green');
+ $form['thees'] = array(
+    '#title' => t('THEES'),
+    '#type' => 'fieldset',
+    '#description' => t('yer name'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE
+    );
+ $form['thees']['fname'] = array(
+    '#title' => t('thesename'),
+    '#type' => 'textfield',
+    '#description' => t('enter some text'),
+    );
+    $form['thees']['lname'] = array(
+    '#title' => t('thesename'),
+    '#type' => 'textfield',
+    '#description' => t('enter some text'),
+    );
+    $form['thas'] = array(
+    '#title' => t('THAS'),
+    '#type' => 'fieldset',
+    '#description' => t('yer name'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE
+    );
+ $form['thas']['fname'] = array(
+    '#title' => t('thesename'),
+    '#type' => 'textfield',
+    '#description' => t('enter some text'),
+    );
+    $form['thas']['lname'] = array(
+    '#title' => t('thesename'),
+    '#type' => 'textfield',
+    '#description' => t('enter some text'),
+    );
+    $form['thas']['colore'] = array(
+    '#title' => t('color'),
+    '#type' => 'select',
+    '#description' => t('enter some text'),
+    //'#options' => $results;
+    );
+  $form['submit'] = array(
+      '#value' => t('works'),
+      '#type' => 'submit',
+    );
+  return $form;
+}
+
+
+/** 
+ * Implementation of hook_form_alter(). 
+*/ 
+function annotate_form_alter(&$form, &$form_state, $form_id)  {
+  //var_dump($form_id);
+  switch( $form_id)  {
+    case 'annotate_gilform':  {
+      $form['warning'] = array(
+        '#markup' => t('we log'),
+        '#weight' => -5
+      );
+      
+      $form['submit'] = array(
+        '#value' => t('works-nott'),
+        '#type' => 'submit',
+      );
+      break;
+    }
+    case 'user_login_block':  {
+      $form['actions']['submit'] = array(
+        '#value' => t('works-noteven'),
+        '#type' => 'submit',
+      );
+      break;
+    }
+  }
+  drupal_set_message($form_id);
+}
+
+function annotate_gilform_validate($form, &$form_state)  {
+ 
+  if($form_state['values']['thees'] == 'gil')  {  
+    //form_set_error('name',t('validate'));
+    get_mojo();
+  }
+   //var_dump($form_state);
+}
+function get_mojo()  {
+  drupal_set_message('I got my mojo workin\'');
+}
+
+
+ function get_query()  {
+//print_r("hi");
+//echo("QUERY TEST <BR />");
+//$sql = 'select w.message from {watchdog} w where w.wid = :one', 0, 10, array(':one' => 146));
+//$result = db_query_range('SELECT w.message FROM {watchdog} w WHERE w.wid = :one', 0, 10, array(':one' => 146));
+//foreach( $result AS $me ){
+//echo $me;
+//}
+
+//$result = db_select('watchdog')->fields('message')->execute()->fetchCol();
+//$query = db_select('watchdog', 'w');
+//$query 
+//-> condition('message', '%action%')
+//->fields('w', array('message'))
+//->range(0,100);
+  //$result = $query->execute();
+ // foreach ( $result as $row) {
+    //drupal_set_message($row);
+    //var_dump( $row->message);
+   // print_r
+ // }
+//var_dump($result);
+
+
+}
