@@ -1,0 +1,19 @@
+html {
+  font-family: arial;
+}
+
+#money-bg {
+  background: none;
+}
+
+div.quote-body {
+  font-style: italic;
+}
+
+span.quote-source {
+  font-style: italic;
+}
+
+span.quote-source-detail {
+  font-style: italic;
+}
