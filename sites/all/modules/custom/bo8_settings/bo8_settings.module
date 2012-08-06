@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the bo8_settings feature.
+ */
+
+include_once 'bo8_settings.features.inc';
